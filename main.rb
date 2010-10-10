@@ -1,53 +1,16 @@
+puts "\r\n\r\n*****************************************************************************************************"
 puts "Let me ask you a few questions before i start bootstrapping your app"
+puts "*****************************************************************************************************"
+
 hoptoad_key = ask("\r\n\r\nWant to use your Hoptoad Account?\n\r\n\rEnter your API Key, or press Enter to skip")
 locale_str = ask("Enter a list of locales you want to use separated by commas (e.g. 'es, de, fr'). For a reference list visit http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/. Press enter to skip: ")
 
-puts "All set. Bootstrapping!!"
+puts "\r\n\r\n*****************************************************************************************************"
+puts "All set. Bootstrapping your app!!"
+puts "*****************************************************************************************************\r\n\r\n"
 
 # GO!
-run "rm -Rf .gitignore README public/index.html public/images/rails.png public/javascripts/* test app/views/layouts/*"
-
-file ("config/example_database.yml") do
-<<-FILE
-  development:
-    adapter: postgresql
-    database: #{app_name}_development
-    host: localhost
-    username: #{app_name}
-    password: #{app_name}
-    timeout: 5000
-
-  staging:
-    adapter: postgresql
-    database: #{app_name}_staging
-    host: localhost
-    username: #{app_name}
-    password: #{app_name}
-    timeout: 5000
-
-  production:
-    adapter: postgresql
-    database: #{app_name}_production
-    host: localhost
-    username: #{app_name}
-    password: #{app_name}
-    timeout: 5000
-
-  # Warning: The database defined as 'test' will be erased and
-  # re-generated from your development database when you run 'rake'.
-  # Do not set this db to the same as development or production.
-  test: &test
-    adapter: postgresql
-    database: #{app_name}_test
-    host: localhost
-    username: #{app_name}
-    password: #{app_name}
-    timeout: 5000
-
-  cucumber:
-    <<: *test
-FILE
-end
+run "rm -Rf .gitignore README public/index.html public/images/rails.png public/javascripts/* app/views/layouts/*"
 
 gem 'will_paginate', '>=3.0.pre2'
 
@@ -63,11 +26,15 @@ gem 'friendly_id', '~>3.1'
 
 # development
 gem "rails-erd", :group => :development
+gem 'wirble', :group => :development
+gem 'awesome_print', :group => :development
+gem "hirb", :group => :development
 
 # testing
 gem "factory_girl_rails", :group => [:test, :cucumber]
-gem "shoulda", :group => :test
+gem "shoulda", :group => [:test, :shoulda]
 gem "faker", :group => [:test, :cucumber]
+gem "mynyml-redgreen", :group => :test, :require => "redgreen"
 
 gem 'cucumber', ">=0.6.3", :group => :cucumber
 gem 'cucumber-rails', ">=0.3.2", :group => :cucumber
@@ -75,6 +42,7 @@ gem 'capybara', ">=0.3.6", :group => :cucumber
 gem 'database_cleaner', ">=0.5.0", :group => :cucumber
 gem 'spork', ">=0.8.4", :group => :cucumber
 gem "pickle", ">=0.4.2", :group => :cucumber
+gem "launchy", :group => :cucumber
 
 # staging & production stuff
 unless hoptoad_key.empty?
@@ -88,22 +56,33 @@ end
 
 run "bundle install"
 
-# asset packager FTW
+gem 'rails3-generators', :group => :development
+
 plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
 
-# TODO: rspec?!
 application  <<-GENERATORS 
 config.generators do |g|
+  g.orm :active_record
+  g.stylesheets false
   g.template_engine :haml
-  g.test_framework  :shoulda
+  g.test_framework  :shoulda, :fixture_replacement => :factory_girl
   g.fallbacks[:shoulda] = :test_unit
   g.integration_tool :cucumber
-  g.fixture_replacement :factory_girl, :dir => "test/factories"
+  g.form_builder :formtastic
+  g.helper false
 end
 GENERATORS
 
+# configure cucumber
 generate "cucumber:install --capybara --testunit --spork"
 generate "pickle --path --email"
+append_file 'features/support/pickle.rb', <<-FILE
+Pickle.configure do |config|
+  config.adapters = [:factory_girl]
+  config.map 'I', 'myself', 'me', 'my', :to => 'user: "me"'
+end
+FILE
+
 generate "friendly_id"
 generate "formtastic:install"
 run "gem install compass"
@@ -111,7 +90,7 @@ run "compass init -r ninesixty --using 960 --app rails --css-dir public/styleshe
 
 run "rm public/stylesheets/*"
 
-unless locales.empty?
+unless locale_str.empty?
   locales = locale_str.split(",")
   locales.each do |loc|
     get("http://github.com/svenfuchs/rails-i18n/raw/master/rails/locale/#{loc.strip}.yml", file)
@@ -124,12 +103,12 @@ get "http://github.com/activestylus/formtastic-sass/raw/master/_formtastic_base.
 # jquery
 get "http://github.com/rails/jquery-ujs/raw/master/src/rails.js", "public/javascripts/rails.js"
 
-get "http://github.com/aentos/rails3_template/raw/master/gitignore" ,".gitignore" 
+get "http://github.com/aentos/rails3-templates/raw/master/gitignore" ,".gitignore" 
 
 # TODO: default stylesheets: screen & print
-get "http://github.com/aentos/rails3_templates/raw/master/application.html.haml", "app/views/layouts/application.html.haml"
-get "http://github.com/aentos/rails3_templates/raw/master/build.rake", "lib/tasks/build.rake"
-get "http://github.com/aentos/rails3_templates/raw/master/asset_packages.yml", "config/asset_packages.yml"
+get "http://github.com/aentos/rails3-templates/raw/master/application.html.haml", "app/views/layouts/application.html.haml"
+get "http://github.com/aentos/rails3-templates/raw/master/build.rake", "lib/tasks/build.rake"
+get "http://github.com/aentos/rails3-templates/raw/master/asset_packages.yml", "config/asset_packages.yml"
 
 create_file 'config/deploy.rb', <<-DEPLOY
 application = '#{app_name}'

@@ -1,10 +1,10 @@
 !!! 5
 %html
   %head
-    = title_tag "optional default title here", :prefix => "optional prefix text", :suffix => "optional suffix text"
-    = description_tag "optional default meta description here"
-    = keywords_tag "optional default meta keywords here"
-    = copyright_tag "optional default meta copyright notice here"
+    %title= "[Default title] #{yield(:title)}"
+    %description= "optional default meta description here"
+    %keywords= "optional default meta keywords here"
+    %copyright= "optional default meta copyright notice here"
     = raw stylesheet_link_merged('screen', :media => 'screen, projection')
     = raw stylesheet_link_merged('print', :media => 'print')
     /[if lt IE 8]

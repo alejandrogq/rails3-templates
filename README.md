@@ -1,6 +1,6 @@
 Usage
 =====
-`rails new app_name -m http://github.com/aentos/rails3-templates/main.rb`
+`rails new app_name -J -m http://github.com/aentos/rails3-templates/main.rb`
 
 Gems
 ====
