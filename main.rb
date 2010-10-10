@@ -76,12 +76,7 @@ GENERATORS
 # configure cucumber
 generate "cucumber:install --capybara --testunit --spork"
 generate "pickle --path --email"
-append_file 'features/support/pickle.rb', <<-FILE
-Pickle.configure do |config|
-  config.adapters = [:factory_girl]
-  config.map 'I', 'myself', 'me', 'my', :to => 'user: "me"'
-end
-FILE
+get "http://github.com/aentos/rails3-templates/raw/master/within_steps.rb" ,"features/step_definitions/within_steps.rb" 
 
 generate "friendly_id"
 generate "formtastic:install"
@@ -104,6 +99,8 @@ get "http://github.com/activestylus/formtastic-sass/raw/master/_formtastic_base.
 get "http://github.com/rails/jquery-ujs/raw/master/src/rails.js", "public/javascripts/rails.js"
 
 get "http://github.com/aentos/rails3-templates/raw/master/gitignore" ,".gitignore" 
+
+plugin 'annote_models', :git => "http://github.com/justinko/annotate_models.git"
 
 # TODO: default stylesheets: screen & print
 get "http://github.com/aentos/rails3-templates/raw/master/application.html.haml", "app/views/layouts/application.html.haml"
