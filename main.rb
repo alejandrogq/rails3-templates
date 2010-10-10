@@ -4,6 +4,15 @@ puts "**************************************************************************
 
 hoptoad_key = ask("\r\n\r\nWant to use your Hoptoad Account?\n\r\n\rEnter your API Key, or press Enter to skip")
 locale_str = ask("Enter a list of locales you want to use separated by commas (e.g. 'es, de, fr'). For a reference list visit http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/. Press enter to skip: ")
+auth_gem = ask("\r\n\r\nWhat authentication framework do you want to use?\r\n\r\n(1) Devise\r\n(2) Authlogic")
+if ["1", "2"].include?(auth_gem)
+  auth = "devise" if auth_gem=="1"
+  auth = "authlogic" i auth_gem=="2" 
+else
+  puts "Woops! You must enter a number between 1 and 4"
+  ask_gem
+end
+
 
 puts "\r\n\r\n*****************************************************************************************************"
 puts "All set. Bootstrapping your app!!"
@@ -45,6 +54,7 @@ gem "pickle", ">=0.4.2", :group => :cucumber
 gem "launchy", :group => :cucumber
 
 # staging & production stuff
+gem 'pg', :group => :production
 unless hoptoad_key.empty?
   gem "hoptoad_notifier", '~> 2.3.6'
   initializer 'hoptoad.rb', <<-FILE
@@ -122,5 +132,7 @@ METRIC_FU
 git :init
 git :add => '.'
 git :commit => '-am "Initial commit"'
- 
+
+apply "http://github.com/aentos/rails3-templates/raw/master/#{auth}.rb" unless auth.blank
+
 puts "SUCCESS!"
