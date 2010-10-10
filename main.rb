@@ -82,7 +82,7 @@ generate "friendly_id"
 generate "formtastic:install"
 run "gem install compass"
 run "compass init -r ninesixty --using 960 --app rails --css-dir public/stylesheets"
-
+create_file "app/stylesheets/_colors.scss"
 run "rm public/stylesheets/*"
 
 unless locale_str.empty?
