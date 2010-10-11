@@ -7,7 +7,7 @@ locale_str = ask("Enter a list of locales you want to use separated by commas (e
 auth_gem = ask("\r\n\r\nWhat authentication framework do you want to use?\r\n\r\n(1) Devise\r\n(2) Authlogic")
 if ["1", "2"].include?(auth_gem)
   auth = "devise" if auth_gem=="1"
-  auth = "authlogic" i auth_gem=="2" 
+  auth = "authlogic" if auth_gem=="2" 
 else
   puts "Woops! You must enter a number between 1 and 4"
   ask_gem
