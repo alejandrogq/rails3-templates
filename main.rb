@@ -90,10 +90,14 @@ get "http://github.com/aentos/rails3-templates/raw/master/within_steps.rb" ,"fea
 
 generate "friendly_id"
 generate "formtastic:install"
+
+# compass
 run "gem install compass"
 run "compass init -r ninesixty --using 960 --app rails --css-dir public/stylesheets"
 create_file "app/stylesheets/_colors.scss"
 run "rm public/stylesheets/*"
+get "http://github.com/activestylus/formtastic-sass/raw/master/_formtastic_base.sass", "app/stylesheets/_formtastic_base.sass"
+get "http://github.com/aentos/rails3-templates/raw/master/handheld.scss" ,"app/stylesheets/handheld.scss" 
 
 unless locale_str.empty?
   locales = locale_str.split(",")
@@ -103,7 +107,6 @@ unless locale_str.empty?
 end
 
 # formtastic sass mixins
-get "http://github.com/activestylus/formtastic-sass/raw/master/_formtastic_base.sass", "app/stylesheets/_formtastic_base.sass"
 
 # jquery
 get "http://github.com/rails/jquery-ujs/raw/master/src/rails.js", "public/javascripts/rails.js"
@@ -112,7 +115,6 @@ get "http://github.com/aentos/rails3-templates/raw/master/gitignore" ,".gitignor
 
 plugin 'annote_models', :git => "http://github.com/justinko/annotate_models.git"
 
-# TODO: default stylesheets: screen & print
 get "http://github.com/aentos/rails3-templates/raw/master/application.html.haml", "app/views/layouts/application.html.haml"
 get "http://github.com/aentos/rails3-templates/raw/master/build.rake", "lib/tasks/build.rake"
 get "http://github.com/aentos/rails3-templates/raw/master/asset_packages.yml", "config/asset_packages.yml"

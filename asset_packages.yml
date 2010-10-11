@@ -3,11 +3,8 @@ javascripts:
 - base:
   - rails
 stylesheets:
-- ie:
-  - ie
 - screen:
   - grid
   - text
-- print:
-  - grid
-  - text
+- handheld:
+  - handheld

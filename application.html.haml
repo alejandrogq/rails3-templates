@@ -18,10 +18,9 @@
     -# %link{ :href => "/apple-touch-icon.png", :rel => "apple-touch-icon" }/
 
     %title= "[Default title] #{yield(:title)}"
-    = raw stylesheet_link_merged('screen', :media => 'screen, projection')
-    = raw stylesheet_link_merged('print', :media => 'print')
-    /[if lt IE 8]
-      = raw stylesheet_link_merged('ie', :media => 'screen, projection')
+    = raw stylesheet_link_merged('screen')
+    -# For the less-enabled mobile browsers like Opera Mini
+    = raw stylesheet_link_merged('handheld', :media => 'handheld')    
     = csrf_meta_tag
   %body{ :class => "#{controller.controller_name}" }
     #container
