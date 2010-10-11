@@ -133,6 +133,6 @@ git :init
 git :add => '.'
 git :commit => '-am "Initial commit"'
 
-apply "http://github.com/aentos/rails3-templates/raw/master/#{auth}.rb" unless auth.blank
+apply "http://github.com/aentos/rails3-templates/raw/master/#{auth}.rb" unless auth.blank?
 
 puts "SUCCESS!"
