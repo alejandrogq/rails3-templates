@@ -4,22 +4,21 @@ puts "**************************************************************************
 
 hoptoad_key = ask("\r\n\r\nWant to use your Hoptoad Account?\n\r\n\rEnter your API Key, or press Enter to skip")
 locale_str = ask("Enter a list of locales you want to use separated by commas (e.g. 'es, de, fr'). For a reference list visit http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/. Press enter to skip: ")
-auth_option = ask("\r\n\r\nWhat authentication framework do you want to use?\r\n\r\n(1) Devise\r\n(2) Authlogic")
-deploy_option = ask("\r\n\r\nWhat deploy method do you want to use?\r\n\r\n(1) Capistrano\r\n(2) Inploy")
-if ["1", "2"].include?(auth_option)
+auth_option = ask("\r\n\r\nWhat authentication framework do you want to use?\r\n\r\n(1) Devise\r\n(2) Authlogic\r\n(3) Omniauth\r\nPress Enter to skip")
+deploy_option = ask("\r\n\r\nWhat deploy method do you want to use?\r\n\r\n(1) Capistrano\r\n(2) Inploy\r\nPress Enter to skip")
+if ["1", "2", "3"].include?(auth_option)
   auth = "devise" if auth_option=="1"
-  auth = "authlogic" if auth_option=="2" 
+  auth = "authlogic" if auth_option=="2"
+  auth = "omniauth" if auth_option=="3"
 else
-  puts "Woops! You must enter a number between 1 and 2"
-  auth_option
+  auth = nil
 end
 
 if ["1", "2"].include?(deploy_option)
   deploy = "capistrano" if deploy_option=="1"
   deploy = "inploy" if deploy_option=="2" 
 else
-  puts "Woops! You must enter a number between 1 and 4"
-  deploy_option
+  deploy = nil
 end
 
 
