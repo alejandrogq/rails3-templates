@@ -6,6 +6,7 @@ hoptoad_key = ask("\r\n\r\nWant to use your Hoptoad Account?\n\r\n\rEnter your A
 locale_str = ask("Enter a list of locales you want to use separated by commas (e.g. 'es, de, fr'). For a reference list visit http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/. Press enter to skip: ")
 auth_option = ask("\r\n\r\nWhat authentication framework do you want to use?\r\n\r\n(1) Devise\r\n(2) Authlogic\r\n(3) Omniauth\r\nPress Enter to skip")
 deploy_option = ask("\r\n\r\nWhat deploy method do you want to use?\r\n\r\n(1) Capistrano\r\n(2) Inploy\r\nPress Enter to skip")
+css_framework_option = ask("\r\n\r\nWhat CSS framework do you want to use?\r\n\r\n(1) 960\r\n(2) Blueprint\r\nPress Enter for 960 (default)")
 if ["1", "2", "3"].include?(auth_option)
   auth = "devise" if auth_option=="1"
   auth = "authlogic" if auth_option=="2"
@@ -21,6 +22,12 @@ else
   deploy = nil
 end
 
+if ["1", "2"].include?(css_framework_option)
+  css_framework = "960" if css_framework_option=="1"
+  css_framework = "blueprint" if css_framework_option=="2" 
+else
+  css_framework = "960"
+end
 
 
 puts "\r\n\r\n*****************************************************************************************************"
@@ -102,7 +109,40 @@ generate "formtastic:install"
 
 # compass
 run "gem install compass"
-run "compass init -r ninesixty --using 960 --app rails --css-dir public/stylesheets"
+if css_framework=="960"
+  run "compass init -r ninesixty --using 960 --app rails --css-dir public/stylesheets"
+  get "http://github.com/aentos/rails3-templates/raw/master/application_960.html.haml", "app/views/layouts/application.html.haml"
+  file "config/asset_packages.yml", <<-FILE
+---
+javascripts:
+- base:
+  - rails
+stylesheets:
+- screen:
+  - grid
+  - text
+- handheld:
+  - handheld
+FILE
+else
+  run "compass init --using blueprint --app rails --css-dir public/stylesheets"
+  get "http://github.com/aentos/rails3-templates/raw/master/application_blueprint.html.haml", "app/views/layouts/application.html.haml"
+  file "config/asset_packages.yml", <<-FILE
+---
+javascripts:
+- base:
+  - rails
+stylesheets:
+- ie:
+  - ie
+- screen:
+  - screen
+- print:
+  - print
+- handheld:
+  - handheld
+FILE
+end
 create_file "app/stylesheets/_colors.scss"
 run "rm public/stylesheets/*"
 get "http://github.com/activestylus/formtastic-sass/raw/master/_formtastic_base.sass", "app/stylesheets/_formtastic_base.sass"
@@ -121,9 +161,7 @@ end
 get "http://github.com/rails/jquery-ujs/raw/master/src/rails.js", "public/javascripts/rails.js"
 
 get "http://github.com/aentos/rails3-templates/raw/master/gitignore" ,".gitignore" 
-get "http://github.com/aentos/rails3-templates/raw/master/application.html.haml", "app/views/layouts/application.html.haml"
 get "http://github.com/aentos/rails3-templates/raw/master/build.rake", "lib/tasks/build.rake"
-get "http://github.com/aentos/rails3-templates/raw/master/asset_packages.yml", "config/asset_packages.yml"
 
 append_file 'Rakefile', <<-METRIC_FU
 MetricFu::Configuration.run do |config|  

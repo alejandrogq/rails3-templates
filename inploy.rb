@@ -4,3 +4,6 @@ application = '#{app_name}'
 repository = ''
 hosts = %w() 
 DEPLOY
+
+git :add => '.'
+git :commit => '-m "Inploy"'

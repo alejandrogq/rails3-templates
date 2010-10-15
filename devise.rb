@@ -4,3 +4,6 @@ run "bundle install"
 generate "devise:install"
 generate "devise User"
 generate "devise Admin"
+
+git :add => '.'
+git :commit => 'm "Devise"'
