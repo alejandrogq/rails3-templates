@@ -74,9 +74,9 @@ end
 FILE
 end
 
-run "bundle install"
-
 gem 'rails3-generators', :group => :development
+
+run "bundle install"
 
 plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
 
@@ -122,9 +122,6 @@ end
 get "http://github.com/rails/jquery-ujs/raw/master/src/rails.js", "public/javascripts/rails.js"
 
 get "http://github.com/aentos/rails3-templates/raw/master/gitignore" ,".gitignore" 
-
-plugin 'annote_models', :git => "http://github.com/justinko/annotate_models.git"
-
 get "http://github.com/aentos/rails3-templates/raw/master/application.html.haml", "app/views/layouts/application.html.haml"
 get "http://github.com/aentos/rails3-templates/raw/master/build.rake", "lib/tasks/build.rake"
 get "http://github.com/aentos/rails3-templates/raw/master/asset_packages.yml", "config/asset_packages.yml"
