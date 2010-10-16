@@ -12,7 +12,6 @@ FILE
 
 route "match '/auth/:provider/callback', :to => 'sessions#create'"
 route "match '/logout', :to => 'sessions#destroy'"
-generate "controller sessions"
 generate "model authorization provider:string uid:string user_id:integer"
 generate "model user name:string"
 
