@@ -1,4 +1,5 @@
 gem 'omniauth'
+gem "fakeweb", :group => :cucumber
 run 'bundle install'
 
 create_file 'config/initializers/omniauth.rb', <<-FILE
@@ -17,7 +18,7 @@ generate "model user name:string"
 
 get "http://github.com/aentos/rails3-templates/raw/master/omniauth/user.rb", "app/models/user.rb"
 get "http://github.com/aentos/rails3-templates/raw/master/omniauth/authorization.rb", 'app/models/authorization.rb'
-get "http://github.com/aentos/rails3-templates/raw/master/omniauth/user_sessions_controller.rb", "app/controllers/application_controller.rb"
+get "http://github.com/aentos/rails3-templates/raw/master/omniauth/sessions_controller.rb", "app/controllers/sessions_controller.rb"
 get "http://github.com/aentos/rails3-templates/raw/master/omniauth/application_controller.rb", "app/controllers/application_controller.rb"
 
 git :add => '.'
