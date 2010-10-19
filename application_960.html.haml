@@ -27,10 +27,10 @@
       #header HEADER
       #sidebar SIDEBAR
       #content
-      #flash
-        - flash.each do |key, value|
-          %div{ :title => key.to_s.humanize, :class => key }
-            %p= value
+        #flash
+          - flash.each do |key, value|
+            %div{ :title => key.to_s.humanize, :class => key }
+              %p= value
         = yield
       #footer
         %p.copyright
