@@ -38,13 +38,15 @@ puts "**************************************************************************
 run "rm -Rf .gitignore README public/index.html public/images/rails.png public/javascripts/* app/views/layouts/*"
 
 gem 'will_paginate', '>=3.0.pre2'
-
 gem "haml-rails", ">= 0.2"
 gem "compass", ">= 0.10.5"
-gem "compass-960-plugin"
+gem "fancy-buttons"
+gem "compass-960-plugin" if css_framework=="960"
 gem 'inherited_resources', '~> 1.1.2'
 gem "formtastic", '~> 1.1.0'
-gem "attrtastic"
+gem "show_for"
+gem "tabs_on_rails"
+gem "meta_search"
 
 # other stuff
 gem 'friendly_id', '~>3.1'
@@ -106,6 +108,15 @@ get "http://github.com/aentos/rails3-templates/raw/master/within_steps.rb" ,"fea
 
 generate "friendly_id"
 generate "formtastic:install"
+generate "show_for:install"
+file "lib/templates/haml/scaffold/show.html.haml", <<-FILE
+= show_for @<%= singular_name %> do |s|
+<% attributes.each do |attribute| -%>
+  = s.<%= attribute.reference? ? :association : :attribute %> :<%= attribute.name %>
+<% end -%>
+
+== \#{link_to 'Edit', edit_<%= singular_name %>_path(@<%= singular_name %>) } | \#{ link_to 'Back', <%= plural_name %>_path }
+FILE
 
 # compass
 run "gem install compass"
