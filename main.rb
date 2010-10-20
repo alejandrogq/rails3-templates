@@ -153,7 +153,7 @@ stylesheets:
   - handheld
 FILE
 end
-create_file "app/stylesheets/_colors.scss"
+create_file "app/stylesheets/partials/_colors.scss"
 get "http://github.com/aentos/rails3-templates/raw/master/handheld.scss" ,"app/stylesheets/handheld.scss" 
 
 unless locale_str.empty?
