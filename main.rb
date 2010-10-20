@@ -43,7 +43,7 @@ gem "compass", ">= 0.10.5"
 gem "fancy-buttons"
 gem "compass-960-plugin" if css_framework=="960"
 gem 'inherited_resources', '~> 1.1.2'
-gem "formtastic", '~> 1.1.0'
+gem "simple_form"
 gem "show_for"
 gem "tabs_on_rails"
 gem "meta_search"
@@ -96,7 +96,6 @@ config.generators do |g|
   g.test_framework  :shoulda, :fixture_replacement => :factory_girl
   g.fallbacks[:shoulda] = :test_unit
   g.integration_tool :cucumber
-  g.form_builder :formtastic
   g.helper false
 end
 GENERATORS
@@ -107,7 +106,7 @@ generate "pickle --path --email"
 get "http://github.com/aentos/rails3-templates/raw/master/within_steps.rb" ,"features/step_definitions/within_steps.rb" 
 
 generate "friendly_id"
-generate "formtastic:install"
+generate "simple_form:install -e haml"
 generate "show_for:install"
 file "lib/templates/haml/scaffold/show.html.haml", <<-FILE
 = show_for @<%= singular_name %> do |s|
@@ -155,8 +154,6 @@ stylesheets:
 FILE
 end
 create_file "app/stylesheets/_colors.scss"
-run "rm public/stylesheets/*"
-get "http://github.com/activestylus/formtastic-sass/raw/master/_formtastic_base.sass", "app/stylesheets/_formtastic_base.sass"
 get "http://github.com/aentos/rails3-templates/raw/master/handheld.scss" ,"app/stylesheets/handheld.scss" 
 
 unless locale_str.empty?
@@ -165,8 +162,6 @@ unless locale_str.empty?
     get("http://github.com/svenfuchs/rails-i18n/raw/master/rails/locale/#{loc.strip}.yml", file)
   end
 end
-
-# formtastic sass mixins
 
 # jquery
 get "http://github.com/rails/jquery-ujs/raw/master/src/rails.js", "public/javascripts/rails.js"
