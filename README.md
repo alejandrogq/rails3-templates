@@ -1,33 +1,45 @@
 Usage
 =====
-`rails new app_name -J -m http://github.com/aentos/rails3-templates/main.rb`
+`rails new app_name -J -m http://github.com/recrea/rails3-templates/main.rb`
 
 Gems
 ====
 
 General use
 -----------
-* [will_paginate](http://github.com/mislav/will_paginate)
-* [attrtastic](http://github.com/MBO/attrtastic)
-* [formtastic](http://github.com/justinfrench/formtastic)
 * [haml-rails](http://github.com/indirect/haml-rails)
+* [inherited_resources](http://github.com/josevalim/inherited_resources)
+* [friendly_id](http://github.com/norman/friendly_id)
 * [compass](http://github.com/chriseppstein/compass)
-* [inherited_resources]
+* [fancy_buttons](http://github.com/imathis/fancy-buttons)
+* [simple_form](http://github.com/plataformatec/simple_form)
+* [show_for](http://github.com/plataformatec/show_for)
+* [will_paginate](http://github.com/mislav/will_paginate)
+* [tabs_on_rails](http://github.com/weppos/tabs_on_rails)
+* [breadcrumbs_on_rails](http://github.com/weppos/breadcrumbs_on_rails)
+* [paperclip](http://github.com/thoughtbot/paperclip)
+* [metasearch](http://github.com/ernie/meta_search)
 
 Development
 -----------
 
 Testing
 -------
-* [shoulda]
-* [factory_girl]
-* [cucumber]
-* [capybara]
-* [faker](http://faker.rubyforge.org/)
+* [shoulda](http://github.com/thoughtbot/shoulda)
+* [factory_girl](http://github.com/thoughtbot/factory_girl)
+* [cucumber](http://github.com/aslakhellesoy/cucumber)
+* [capybara](http://github.com/jnicklas/capybara)
+* [faker](http://github.com/stympy/faker)
+
+Production
+----------
+* [whenever](http://github.com/javan/whenever)
+* [backup](http://github.com/meskyanichi/backup)
 
 Optional
 --------
 * [hoptoad_notifier](http://github.com/thoughtbot/hoptoad_notifier)
+* [exceptional_notifier](http://getexceptional.com)
 
 Plugins
 =======
@@ -35,5 +47,6 @@ Plugins
 
 Other tools
 ===========
-* [960 grid system](http://960.gs/)
+* [Exceptional](http://getexceptional.com/)
 * [Hoptoad](http://hoptoadapp.com/)
+

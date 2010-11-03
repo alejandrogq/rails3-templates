@@ -1,11 +1,14 @@
 !!! 5
-%html
+%html{:lang => I18n.locale}
   %head
+  	%title= "[Default title] #{yield(:title)}"
+		/meta
     %meta{ :charset => "utf-8" }/
-    -# 
-      Always force latest IE rendering engine (even in intranet) & Chrome Frame
-      Remove this if you use the .htaccess
-    %meta{ :content => "IE=edge,chrome=1", "http-equiv" => "X-UA-Compatible" }/
+		%meta{ :name => "robots", :content => "noindex, nofollow" }/
+		%meta{ :name => "MSSmartTagsPreventParsing", :content => "true" }/
+		%meta{ 'http-equiv' => "pragma", :content => "no-cache" }/
+		%meta{ 'http-equiv' => "imagetoolbar", :content => "no" }/
+		%meta{ 'http-equiv' => "X-UA-Compatible", :content => "IE=edge,chrome=1" }/
     %meta{ :content => "", :name => "description" }/
     %meta{ :content => "", :name => "author" }/
     %meta{ :content => "", :name => "keywords" }/
@@ -13,19 +16,24 @@
     -# Mobile viewport optimized: j.mp/bplateviewport
     %meta{ :content => "width=device-width; initial-scale=1.0", :name => "viewport" }/
 
-    -# Place favicon.ico and apple-touch-icon.png in the root of your domain and delete these references
-    -# %link{ :href => "/favicon.ico", :rel => "shortcut icon" }/
-    -# %link{ :href => "/apple-touch-icon.png", :rel => "apple-touch-icon" }/
+		/dublincore
+		%link{:rel => "meta", :type => "application/rdf+xml", :href => "application.rdf"}	
 
-    %title= "[Default title] #{yield(:title)}"
+		/hidden nav
+		%link{:rel => "shortcut icon", :type => "vnd.microsoft.icon", :href => "/images/favicon.ico"}	
+		%link{:rel => "shortcut icon", :href => "/images/favicon.png"}	
+		%link{:rel => "apple-touch-icon", :href => "/images/ipicon.png"}	
+		%link{:rel => "start", :href => "[Web URL]", :title => "[Default title]"}	
+		%link{:rel => "made", :href => "mailto:info@recrea.es"}	
+		%link{:rel => "alternate", :type => "application/rss+xml", :href => "[RSS URL]", :title => "RSS"}	
+
     = raw stylesheet_link_merged('screen', :media => 'screen, projection')
     = raw stylesheet_link_merged('print', :media => 'print')
     /[if lt IE 8]
       = raw stylesheet_link_merged('ie', :media => 'screen, projection')
-    -# For the less-enabled mobile browsers like Opera Mini
     = raw stylesheet_link_merged('handheld', :media => 'handheld')    
     = csrf_meta_tag
-  %body{ :class => "#{controller.controller_name}" }
+  %body
     #container
       #header HEADER
       #sidebar SIDEBAR

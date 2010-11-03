@@ -4,7 +4,7 @@ capify!
 
 app_name = ask "\r\n\r\nEnter the application name:"
 server = ask "\r\n\r\nEnter the servername or IP:"
-git_repo = ask "\r\n\r\nEnter the git repo URL, e.g. git@github.com:aentos/app.git :"
+git_repo = ask "\r\n\r\nEnter the git repo URL, e.g. git@github.com:recrea/app.git :"
 
 file 'config/deploy.rb', <<-FILE
 # Bundler Integration
