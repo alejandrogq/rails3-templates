@@ -21,4 +21,4 @@ get "http://github.com/aentos/rails3-templates/raw/master/omniauth/sessions_cont
 get "http://github.com/aentos/rails3-templates/raw/master/omniauth/application_controller.rb", "app/controllers/application_controller.rb"
 
 git :add => '.'
-git :commit => '-m "Ominauth"'
+git :commit => '-m "ominauth"'

@@ -1,6 +1,8 @@
 Usage
 =====
-`rails new app_name -J -m http://github.com/recrea/rails3-templates/main.rb`
+In order to use these templates, you should clone the repo and refer to the templates from your local file system:
+
+`rails new app_name -J -m rails3-templates/main.rb`
 
 Gems
 ====

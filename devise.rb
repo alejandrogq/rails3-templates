@@ -4,4 +4,4 @@ run "bundle install"
 generate "devise:install"
 
 git :add => '.'
-git :commit => 'm "Devise"'
+git :commit => '-m "devise"'

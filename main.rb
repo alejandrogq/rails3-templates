@@ -1,11 +1,11 @@
-puts '\r\n\r\n*****************************************************************************************************'
-puts 'Let me ask you a few questions before I start bootstrapping your app'
-puts '*****************************************************************************************************'
+puts "\r\n\r\n*****************************************************************************************************"
+puts "Let me ask you a few questions before I start bootstrapping your app"
+puts "*****************************************************************************************************"
 
-auth_option = ask('\r\n\r\nWhat authentication framework do you want to use?\r\n\r\n(1) Devise\r\n(2) Authlogic\r\n(3) Omniauth\r\nPress Enter to skip')
-deploy_option = ask('\r\n\r\nWhat deploy method do you want to use?\r\n\r\n(1) Capistrano\r\n(2) Inploy\r\nPress Enter to skip')
-locale_str = ask('Enter a list of locales you want to use separated by commas (e.g. 'es, de, fr'). For a reference list visit http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/. Press enter to skip: ')
-exceptions_option = ask('\r\n\r\nWhat exceptions tracker do you want to use?\r\n\r\n(1) Exceptional\r\n(2) Hoptoad\r\nPress Enter to skip')
+auth_option = ask("\r\n\r\nWhat authentication framework do you want to use?\r\n(1) Devise\r\n(2) Authlogic\r\n(3) Omniauth\r\nPress Enter to skip")
+deploy_option = ask("\r\n\r\nWhat deploy method do you want to use?\r\n(1) Capistrano\r\n(2) Inploy\r\nPress Enter to skip")
+locale_str = ask("\r\n\r\nEnter a list of locales you want to use separated by commas (e.g. 'es, de, fr'). For a reference list visit http://github.com/svenfuchs/rails-i18n/tree/master/rails/locale/. Press enter to skip: ")
+exceptions_option = ask("\r\n\r\nWhat exceptions tracker do you want to use?\r\n(1) Exceptional\r\n(2) Hoptoad\r\nPress Enter to skip")
 
 if ['1', '2', '3'].include?(auth_option)
   auth = 'devise' if auth_option=='1'
@@ -23,15 +23,16 @@ else
 end
 
 if ['1', '2'].include?(exceptions_option)
-  exceptions_tracker = 'exceptional' if css_framework_option=='1'
-  exceptions_tracker = 'hoptoad' if css_framework_option=='2' 
+  exceptions_tracker = 'exceptional'  if exceptions_option=='1'
+  exceptions_tracker = 'hoptoad' if exceptions_option=='2'
+  exceptions_key = ask("\r\n\r\nWhat is your API key for your exceptions tracker?")
 else
   exceptions_tracker = nil
 end
 
-puts '\r\n\r\n*****************************************************************************************************'
-puts 'All set. Bootstrapping your app!!'
-puts '*****************************************************************************************************\r\n\r\n'
+puts "\r\n\r\n*****************************************************************************************************"
+puts "All set. Bootstrapping your app!!"
+puts "*****************************************************************************************************"
 
 # GO!
 run 'rm -Rf .gitignore README public/index.html public/images/rails.png public/javascripts/* app/views/layouts/*'
@@ -79,14 +80,14 @@ if exceptions_tracker == 'hoptoad'
   gem 'hoptoad_notifier', '~> 2.3.6'
   initializer 'hoptoad.rb', <<-FILE
 HoptoadNotifier.configure do |config|
-  config.api_key = '#{hoptoad_key}'
+  config.api_key = #{exceptions_key}
 end
 FILE
 end
 
 if exceptions_tracker == 'exceptional'
   gem 'exceptional'
-  exceptional install exceptional_key
+  run "exceptional install #{exceptions_key}"
 end
 
 run 'bundle install'
@@ -96,21 +97,21 @@ plugin 'asset_packager', :git => 'git://github.com/sbecker/asset_packager.git'
 
 # generators
 application  <<-GENERATORS 
-config.generators do |g|
-  g.orm :active_record
-  g.stylesheets false
-  g.template_engine :haml
-  g.test_framework  :shoulda, :fixture_replacement => :factory_girl
-  g.fallbacks[:shoulda] = :test_unit
-  g.integration_tool :cucumber
-  g.helper false
-end
+  config.generators do |g|
+    g.orm :active_record
+    g.stylesheets false
+    g.template_engine :haml
+    g.test_framework  :shoulda, :fixture_replacement => :factory_girl
+    g.fallbacks[:shoulda] = :test_unit
+    g.integration_tool :cucumber
+    g.helper false
+  end
 GENERATORS
 
 # configure cucumber
 generate 'cucumber:install --capybara --testunit --spork'
 generate 'pickle --path --email'
-get 'http://github.com/recrea/rails3-templates/raw/master/within_steps.rb' ,'features/step_definitions/within_steps.rb' 
+get 'https://github.com/recrea/rails3-templates/raw/master/within_steps.rb' ,'features/step_definitions/within_steps.rb' 
 
 # configure other gems
 generate 'friendly_id'
@@ -125,14 +126,14 @@ file 'lib/templates/haml/scaffold/show.html.haml', <<-FILE
 == \#{link_to 'Edit', edit_<%= singular_name %>_path(@<%= singular_name %>) } | \#{ link_to 'Back', <%= plural_name %>_path }
 FILE
 run 'wheneverize .'
+run 'rails g backup'
 
 # configure compass
-run 'gem install compass'
-run 'compass init --using blueprint --app rails --css-dir public/stylesheets'
+run 'compass init rails . --quiet --sass-dir app/stylesheets --css-dir public/stylesheets'
 create_file 'app/stylesheets/partials/_colors.scss'
-get 'http://github.com/recrea/rails3-templates/raw/master/handheld.scss' ,'app/stylesheets/handheld.scss' 
+get 'https://github.com/recrea/rails3-templates/raw/master/handheld.scss' ,'app/stylesheets/handheld.scss' 
 
-get 'http://github.com/recrea/rails3-templates/raw/master/application.html.haml', 'app/views/layouts/application.html.haml'
+get 'https://github.com/recrea/rails3-templates/raw/master/application.html.haml', 'app/views/layouts/application.html.haml'
 file 'config/asset_packages.yml', <<-FILE
 ---
 javascripts:
@@ -148,7 +149,6 @@ stylesheets:
 - handheld:
   - handheld
 FILE
-end
 
 # get locales
 unless locale_str.empty?
@@ -159,11 +159,11 @@ unless locale_str.empty?
 end
 
 # get jquery
-get 'http://github.com/rails/jquery-ujs/raw/master/src/rails.js', 'public/javascripts/jquery.rails.js'
+get 'https://github.com/rails/jquery-ujs/raw/master/src/rails.js', 'public/javascripts/jquery.rails.js'
 
 # other stuff
-get 'http://github.com/recrea/rails3-templates/raw/master/gitignore' ,'.gitignore' 
-get 'http://github.com/recrea/rails3-templates/raw/master/build.rake', 'lib/tasks/build.rake'
+get 'https://github.com/recrea/rails3-templates/raw/master/gitignore' ,'.gitignore' 
+get 'https://github.com/recrea/rails3-templates/raw/master/build.rake', 'lib/tasks/build.rake'
 
 append_file 'Rakefile', <<-METRIC_FU
 MetricFu::Configuration.run do |config|  
@@ -173,9 +173,9 @@ METRIC_FU
 
 git :init
 git :add => '.'
-git :commit => '-am 'Initial commit''
+git :commit => '-am \'Initial commit\''
 
-apply 'http://github.com/recrea/rails3-templates/raw/master/#{auth}.rb' unless auth.blank?
-apply 'http://github.com/recrea/rails3-templates/raw/master/#{deploy}.rb' unless deploy.blank?
+apply "https://github.com/recrea/rails3-templates/raw/master/#{auth}.rb" unless auth.blank?
+apply "https://github.com/recrea/rails3-templates/raw/master/#{deploy}.rb" unless deploy.blank?
 
-puts 'SUCCESS!'
+puts "SUCCESS!"
